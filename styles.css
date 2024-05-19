@@ -1,0 +1,154 @@
+body {
+    margin: 0;
+    background-color: black;
+    color: green;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#container {
+    display: flex;
+    width: 90%;
+    height: 90%;
+}
+
+#menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5em;
+    margin-right: 0%;
+    width: 8rem;
+}
+
+#menu button {
+    background-color: black;
+    color: green;
+    border: 1px solid green;
+    opacity: 0.5;
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+    font-size: 1rem;
+}
+#menu input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: rgb(45, 214, 45);
+    cursor: pointer;
+}
+
+#menu input[type=range]::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: green;
+    cursor: pointer;
+}
+
+#menu input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px; /* Thin slider */
+    background: green;
+    outline: none;
+    opacity: 0.4;
+    transition: opacity .2s;
+    cursor: pointer;
+}
+
+#menu label[for='volumeSlider']{
+}
+
+#menu button:hover {
+    background-color: green;
+    color: black;
+    opacity: 1;
+}
+
+#content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#textArea {
+    width: 100%;
+    max-width: 48rem;
+    height: 97%;
+    text-align: left;
+    background-color: black;
+    color: green;
+    border: 0px solid green;
+    outline: none;
+    resize: none;
+    font-size: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    margin-right: 4rem;
+}
+
+/* Custom scrollbar styles */
+#textArea::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+#textArea::-webkit-scrollbar-track {
+    background: black;
+}
+
+#textArea::-webkit-scrollbar-thumb {
+    background-color: green;
+    border-radius: 1rem;
+    border: 0.1rem solid black;
+}
+
+#textArea::-webkit-scrollbar-thumb:hover {
+    background-color: #00ff00;
+}
+
+#wordCounter {
+    text-align: right;
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    #container {
+        flex-direction: column;
+        align-items: left;
+    }
+
+    #menu {
+        flex-direction: row;
+        justify-content: center;
+        gap: 0.5em;
+        margin-bottom: 0.2em;
+        width: 100%;
+    }
+    #menu button {
+        background-color: black;
+        color: green;
+        border: 1px solid green;
+        padding: 0.5em 0.5em;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    #textArea {
+        width: 92%;
+        height: 80%;
+        margin-right: 0rem;
+
+    }
+    #wordCounter {
+        top: 2%;
+        right: 2%;
+        font-size: 0.9rem;
+    }
