@@ -119,7 +119,9 @@ function generateFilename() {
 
 function saveFile() {
     const text = document.getElementById('textArea').value;
-    const blob = new Blob([new TextEncoder().encode(text)], { type: 'text/plain;charset=utf-8' });
+    const bom = "\ufeff"; 
+    const textWithBom = bom + text;
+    const blob = new Blob([textWithBom], { type: 'text/plain;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = generateFilename();
