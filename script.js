@@ -1,4 +1,4 @@
-let soundEnabled = false;
+let soundEnabled = true;
 const audioFiles = Array.from({ length: 31 }, (_, i) => `clicks/segment_${i + 1}.opus`);
 let currentVolume = 0.5;
 
