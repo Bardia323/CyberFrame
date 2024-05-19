@@ -20,20 +20,7 @@ Designed to provide a focused writing experience.
 www.cyberframe.org
 
 ## Local Installation
-
-1. Clone the repository:
-    ```sh
-    git clone https://github.com/your-username/writing-app.git
-    ```
-2. Navigate to the project directory:
-    ```sh
-    cd writing-app
-    ```
-3. Start a local server (using Python):
-    ```sh
-    python -m http.server 8080
-    ```
-4. Open your browser and navigate to `http://localhost:8080`
+Go to your browser settings and install app / save page
 
 ## Usage
 
