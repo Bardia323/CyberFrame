@@ -13,7 +13,7 @@ A simple and elegant writing application with sound effects and customizable vol
 
 ## Screenshot
 
-![Screenshot](Screenshot.png)
+![Screenshot](Screenshot.jpg)
 
 ## Usage
 www.cyberframe.org
