@@ -1,4 +1,4 @@
-# Writing App
+# CyberFrame (Minimal Writing App)
 
 A simple and elegant writing application with sound effects and customizable volume control. Designed to provide a seamless and enjoyable writing experience.
 
