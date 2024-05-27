@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v3';  // Increment this value every time you update the cache contents
+const CACHE_NAME = 'v4';  // Increment this value every time you update the cache contents
 const urlsToCache = [
   '/',
   '/index.html',
@@ -18,6 +18,8 @@ self.addEventListener('install', (event) => {
         return cache.addAll(urlsToCache);
       })
   );
+  // Force the waiting service worker to become the active service worker.
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
@@ -31,6 +33,9 @@ self.addEventListener('activate', (event) => {
           return caches.delete(cacheName);
         })
       );
+    }).then(() => {
+      // Take control of all clients immediately.
+      return self.clients.claim();
     })
   );
 });
@@ -39,28 +44,18 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
-        // Return the response if it is found in the cache
         if (response) {
           return response;
         }
-        // Otherwise fetch from the network
         return fetch(event.request).then((response) => {
-          // Check if we received a valid response
           if (!response || response.status !== 200 || response.type !== 'basic') {
             return response;
           }
-
-          // IMPORTANT: Clone the response. A response is a stream
-          // and because we want the browser to consume the response
-          // as well as the cache consuming the response, we need
-          // to clone it so we have two streams.
           var responseToCache = response.clone();
-
           caches.open(CACHE_NAME)
             .then((cache) => {
               cache.put(event.request, responseToCache);
             });
-
           return response;
         });
       })
