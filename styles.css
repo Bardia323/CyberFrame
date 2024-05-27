@@ -37,6 +37,8 @@ body {
     right: 5%;
     color: green;
     font-size: 1rem;
+    max-height: 300px; /* Set a max height for scrollbar */
+    overflow-y: auto; /* Enable scrolling */
 }
 
 #menu {
@@ -279,6 +281,8 @@ body {
         position:static;
         margin-left:1.5em;
         margin-bottom: 2em;
+        max-height: 150px; /* Adjust height for mobile */
+
     }
     #branchTitleContainer{
         position: relative;
