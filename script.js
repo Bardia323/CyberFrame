@@ -266,6 +266,8 @@ function loadFile() {
 function toggleSound() {
     soundEnabled = !soundEnabled;
     document.querySelector('#menu button:nth-child(3)').textContent = soundEnabled ? 'Disable Sound' : 'Enable Sound';
+    document.querySelector('#mobileMenu button:nth-child(3)').textContent = soundEnabled ? 'Disable Sound' : 'Enable Sound';
+
     playSound();
 }
 

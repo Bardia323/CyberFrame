@@ -45,11 +45,11 @@
         
         <!-- Mobile Menu -->
         <div id="mobileMenu" class="hidden">
-            <button onclick="saveFile()">Save</button>
-            <button onclick="loadFile()">Load</button>
+            <button onclick="saveFile();  toggleMobileMenu()">Save</button>
+            <button onclick="loadFile();  toggleMobileMenu()">Load</button>
             <button onclick="toggleSound()">Disable Sound</button>
-            <button onclick="toggleFullscreen()">Fullscreen</button>
-            <button onclick="showFullDirectoryTree()">Show Full Tree</button>
+            <button onclick="toggleFullscreen();  toggleMobileMenu()">Fullscreen</button>
+            <button onclick="showFullDirectoryTree(); toggleMobileMenu()">Show Full Tree</button>
             <div>
                 <label for="volumeSliderMobile">Volume</label>
                 <input type="range" id="volumeSliderMobile" min="0" max="1" step="0.01" value="0.5" onchange="setVolume(this.value)">
