@@ -7,11 +7,14 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="icons/favicon.ico" type="image/x-icon"> 
     <link rel="manifest" href="/manifest.json">
-
-
 </head>
 <body>
     <div id="container">
+        <!-- Hamburger menu icon for mobile view -->
+        <div id="topMobile">
+            <div id="hamburgerMenu" onclick="toggleMobileMenu()">&#9776;</div>
+            <div id="wordCounter">Word Counter: 0</div>
+        </div>
         <div id="menu">
             <button onclick="saveFile()">Save</button>
             <button onclick="loadFile()">Load</button>
@@ -19,16 +22,51 @@
             <button onclick="toggleFullscreen()">Fullscreen</button>
             <div>
                 <label for="volumeSlider">Volume</label>
-            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" onchange="setVolume(this.value)">
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" onchange="setVolume(this.value)">
             </div>
-            
+            <button onclick="createNewBranch()">New Branch</button>
+            <button onclick="goToPreviousBranch()">Prev Branch</button>
+            <button onclick="showFullDirectoryTree()">Show Full Tree</button>
+        </div>
+        <div id="mobileButtons">
+            <button onclick="createNewBranch()">New Branch</button>
+            <button onclick="deleteBranch()">Delete Branch</button>
+            <button onclick="goToPreviousBranch()">Prev Branch</button>
+        </div>
+        <div id="branchTitleContainer">
+            <input type="text" id="branchTitle" placeholder="Branch Title" oninput="updateBranchTitle()" />
         </div>
         <div id="content">
             <textarea id="textArea" oninput="updateWordCount()" placeholder="This is a writing app.&#10;&#10;It includes infinite scrolling.&#10;Files are saved to and loaded from .txt"></textarea>
         </div>
-        <div id="wordCounter">Word Counter: 0</div>
+        
+        <div id="directoryTree"></div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden">
+            <button onclick="saveFile()">Save</button>
+            <button onclick="loadFile()">Load</button>
+            <button onclick="toggleSound()">Disable Sound</button>
+            <button onclick="toggleFullscreen()">Fullscreen</button>
+            <button onclick="showFullDirectoryTree()">Show Full Tree</button>
+            <div>
+                <label for="volumeSliderMobile">Volume</label>
+                <input type="range" id="volumeSliderMobile" min="0" max="1" step="0.01" value="0.5" onchange="setVolume(this.value)">
+            </div>
+            <div id="mobileDirectoryTree">
+            </div>
+        </div>
+        
     </div>
+    
     <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect(event)">
     <script src="script.js"></script>
+    <div id="fullTreePopup" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closeFullTreePopup()">&times;</span>
+            <h2>Complete Directory Tree</h2>
+            <div id="fullTreeContent"></div>
+        </div>
+    </div>
 </body>
 </html>
