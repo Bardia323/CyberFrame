@@ -107,6 +107,8 @@ const positiveAdjectives = [
     'Tribe', 'Crew', 'Groupmate', 'Bestie'
   ];
 
+  const wackyItems = ["Blink", "Fizz", "Jolt", "Zap", "Boing", "Zing", "Quirk", "Whizz", "Gloop", "Clank", "Splat", "Glitch", "Plop", "Zonk", "Squib", "Fuzz", "Spork", "Wobble", "Glop", "Blob", "Ping", "Blip", "Wham", "Ploop", "Thunk", "Zoom", "Swish", "Twist", "Jive", "Snip", "Flick", "Blitz", "Jazz", "Ding", "Whiz", "Pop", "Quack", "Bop", "Snazzy", "Loom", "Quip", "Zap", "Swoosh", "Ping", "Whip", "Zing", "Zip", "Clonk", "Buzz", "Quirk"];
+
 function getRandomWord(list) {
     return list[Math.floor(Math.random() * list.length)];
 }
@@ -116,11 +118,21 @@ function updateWordCount() {
     document.getElementById('wordCounter').innerText = `Word Counter: ${words}`;
 }
 
+
+function getCurrentDate() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 function generateFilename() {
+    const currentDate = getCurrentDate();
     if (branches.root.title === "root") {
         const adjective = getRandomWord(positiveAdjectives);
         const clientSynonym = getRandomWord(synonymsForClient);
-        return `for_${adjective}_${clientSynonym}.txt`;
+        return `${currentDate}_${adjective}_${clientSynonym}.txt`;
     } else {
         return `${branches.root.title}.txt`;
     }
@@ -147,8 +159,6 @@ function generateReST(branch, level = 1) {
     return restContent;
 }
 
-
-
 function saveFile() {
     let content;
     if (branches.root.children.length === 0) {
@@ -165,9 +175,6 @@ function saveFile() {
     a.click();
     playSound();
 }
-
-
-
 
 function parseReST(content) {
     const lines = content.split('\n');
@@ -222,9 +229,6 @@ function parseReST(content) {
 
     return root.children.length > 0 ? root.children[0] : root;
 }
-
-
-
 
 
 function handleFileSelect(event) {
@@ -349,30 +353,36 @@ let navigationStack = [branches.root];  // Initialize with root in the stack
 function createNewBranch() {
     const textArea = document.getElementById('textArea');
     const selection = textArea.value.substring(textArea.selectionStart, textArea.selectionEnd).trim();
+    let title, path, newBranch;
 
     if (!selection) {
-        if (currentBranch.children.length > 0) {
-            navigateToChildBranch();
-        } else {
-            alert("No text selected and no child branches to navigate to.");
-        }
+        title = getRandomWord(wackyItems);  // Default title, consider prompting the user or generating a unique title
+        path = currentBranch.path + '/' + title;
+        title = getUniqueSiblingTitle(title, currentBranch);
+        newBranch = getOrCreateBranch(title, path);
+        linkBranchToParent(newBranch);
+        navigateToBranch(newBranch);
         return;
     }
 
-    let title = getBranchTitle(selection);
-    let path = currentBranch.path + '/' + title;
+    title = getBranchTitle(selection);
+    path = currentBranch.path + '/' + title;
     title = getUniqueSiblingTitle(title, currentBranch);
-
-    let newBranch = getOrCreateBranch(title, path);
+    newBranch = getOrCreateBranch(title, path);
     linkBranchToParent(newBranch);
     updateBranchContent(textArea, selection, newBranch);
     navigateToBranch(newBranch);
 }
 
+
 function navigateToChildBranch() {
-    currentBranch = currentBranch.children[0];
-    navigationStack.push(currentBranch);
-    updateView();
+    if (currentBranch.children.length > 0) {
+        currentBranch = currentBranch.children[0];
+        navigationStack.push(currentBranch);
+        updateView();
+    } else {
+        createNewBranch();  // Create a new branch if no children are available
+    }
 }
 
 function navigateToBranch(branch) {
@@ -388,10 +398,14 @@ function linkBranchToParent(branch) {
 }
 
 function updateBranchContent(textArea, selection, newBranch) {
-    let newText = textArea.value.replace(selection, "").trim();
-    currentBranch.text = newText;
+    let beforeSelection = textArea.value.substring(0, textArea.selectionStart);
+    let afterSelection = textArea.value.substring(textArea.selectionEnd);
+    let newText = beforeSelection + afterSelection;
+    textArea.value = newText.trim(); // Update the textarea's value
+    currentBranch.text = newText.trim();
     newBranch.text = selection;
 }
+
 
 function updateView() {
     updateTextArea();
@@ -736,8 +750,8 @@ document.addEventListener('keydown', (event) => {
 
 function handleAltKeyEvent(event) {
     const keyActions = {
-        'ArrowRight': createNewBranch,
-        'ArrowLeft': !event.shiftKey ? goToPreviousBranch : branchMergeUpstream,
+        'ArrowRight': () => event.shiftKey ? createNewBranch() : navigateToChildBranch(),
+        'ArrowLeft': () => event.shiftKey ? branchMergeUpstream() : goToPreviousBranch(),
         'ArrowUp': () => cycleSibling(-1),
         'ArrowDown': () => cycleSibling(1),
         'Delete': deleteBranch,
