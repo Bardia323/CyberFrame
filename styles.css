@@ -278,6 +278,7 @@ body {
     #directoryTree{
         position:static;
         margin-left:1.5em;
+        margin-bottom: 2em;
     }
     #branchTitleContainer{
         position: relative;
