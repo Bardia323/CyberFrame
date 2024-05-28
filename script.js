@@ -3,6 +3,14 @@ let soundEnabled = true;
 const audioFiles = Array.from({ length: 31 }, (_, i) => `clicks/segment_${i + 1}.opus`);
 let currentVolume = 0.5;
 
+const audioElements = audioFiles.reduce((acc, file) => {
+    const audio = new Audio(file);
+    audio.load();
+    acc[file] = audio;
+    return acc;
+}, {});
+
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js').then((registration) => {
@@ -273,7 +281,7 @@ function toggleSound() {
 
 function playSound(file) {
     if (soundEnabled && file) {
-        const audio = new Audio(file);
+        const audio = audioElements[file];
         audio.currentTime = 0;
         audio.play();
         audio.volume = currentVolume;
@@ -283,7 +291,6 @@ function playSound(file) {
         }, 200); // Stop after 0.2 seconds
     }
 }
-
 function toggleFullscreen() {
     if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen();
