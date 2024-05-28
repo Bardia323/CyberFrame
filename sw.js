@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v6';  // Increment this value every time you update the cache contents
+const CACHE_NAME = 'v7';  // Increment this value every time you update the cache contents
 const urlsToCache = [
   '/',
   '/index.html',
